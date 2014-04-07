@@ -49,13 +49,13 @@ GameManager.prototype.setup = function () {
     this.keepPlaying = previousState.keepPlaying;
   } else {
     this.grid        = new Grid(this.size);
-    this.score       = 0;
     this.over        = false;
     this.won         = false;
     this.keepPlaying = false;
 
     // Add the initial tiles
     this.addStartTiles();
+    this.score       = this.grid.score();
   }
 
   // Update the actuator
@@ -167,9 +167,6 @@ GameManager.prototype.move = function (direction) {
           // Converge the two tiles' positions
           tile.updatePosition(positions.next);
 
-          // Update the score
-          self.score += merged.value;
-
           // The mighty 2048 tile
           if (merged.value === 2048) self.won = true;
         } else {
@@ -185,6 +182,9 @@ GameManager.prototype.move = function (direction) {
 
   if (moved) {
     this.addRandomTile();
+
+    // Update the score
+    self.score = self.grid.score();
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!

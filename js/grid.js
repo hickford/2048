@@ -115,3 +115,38 @@ Grid.prototype.serialize = function () {
     cells: cellState
   };
 };
+
+// List values of all the tiles
+Grid.prototype.tileValues = function() {
+  var values = [];
+
+  this.eachCell(function (x, y, tile) {
+    if (tile) {
+      values.push(tile.value);
+    }
+  });
+
+  return values;
+}
+
+// Score the grid: ~ sum of distinct tiles
+Grid.prototype.score = function() {
+  // values in descending order
+  var values = this.tileValues();
+  values.sort(function(a,b){return b-a}); // descending
+
+  var score = 0;
+
+  for (var i = 0; i < values.length; i++) {
+    score += values[i];
+
+    if (i > 0 && values[i] === values[i-1]) {
+      // hit dupe
+      score -= 1;
+      break;
+    }
+  }
+
+  return score;
+}
+
