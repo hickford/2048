@@ -77,9 +77,19 @@
     </p>
     <hr>
     <p>
-    MGH: I changed the scoring algorithm to be more meaningful. Your score is now bounded below by the largest tile you've made, and above by the smallest tile you've yet to make. Thus, score measures progress towards the 2048 goal.
+    MGH: This is <a href="https://github.com/matt-hickford/2048">my fork</a> of the hit game 2048. I changed the scoring algorithm to be more meaningful. In the original game, score grew faster than the largest tile. By the time the player created a 2048 tile, their score would typically be around 20,000. Most players ignored the score.
     </p>
-    <p><a href="https://github.com/matt-hickford/2048">Code on GitHub</a></p>
+    <p>
+    A better scoring algorithm would measure progress towards the goal of making a 2048 tile. It would have these properties:
+    <ol>
+    <li>Score &ge; 2048 is necessary and sufficient to win.</li>
+    <li>Score is bounded below by the largest tile on the grid, and above by the (yet unmade) tile beyond that.</li>
+    <li>Score is increasing.</li>
+    <li>Score is a function only of the current grid, and not how that grid was arrived at.</li>
+    <li>Intermediate scores between 1024 and 2048 are possible.</li>
+    </ol>
+    </p>
+    <p>This suggests a new scoring algorithm: sum distinct tiles, allowing duplicates to substitute for all smaller titles.</p>
   </div>
 
   <script src="js/bind_polyfill.js"></script>
